@@ -1,0 +1,20 @@
+package:
+  name: "transposon_annotation_tools_sinefinder"
+  version: "1.0.1"
+
+build:
+  number: 0
+  noarch: generic
+
+requirements:
+  run:
+    - python 2.7
+
+about:
+  home: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  license: BSD
+  license_family: BSD
+  summary: "SineFinderv1.0.1, tool developed by Wenke et al. (2011) Plant Cell, https://doi.org/10.1105/tpc.111.088682"
+  doc_url: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  dev_url: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  description: During my masterthesis on transposon classification, annotation and detection I wrapped and installed various softwares. In order to facilitate future works on transposon research, I wanted to contribute easy-to-install bioconda packages to enable researches to use the softwares from command line. 
