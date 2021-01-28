@@ -1,0 +1,21 @@
+package:
+  name: "transposon_annotation_tools_helitronscanner"
+  version: "1.0.0"
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - python
+    - openjdk
+
+about:
+  home: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  license: BSD
+  license_family: BSD
+  summary: "HelitronScannerv1.0, tool developed by Xiong et al. (2014) Proceedings of the National Academy of Sciences, https://doi.org/10.1073/pnas.1410068111, https://sourceforge.net/projects/helitronscanner/files/"
+  doc_url: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  dev_url: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  description: A set of bioconda packages for transposon annotations. During my masterthesis I downloaded lots of these tools and I want to make it easier for the research community to install and run these softwares as bioconda packages from command line. 
+
