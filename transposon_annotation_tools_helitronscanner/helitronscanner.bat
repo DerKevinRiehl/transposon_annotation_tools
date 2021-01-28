@@ -1,1 +1,0 @@
-python helitronscanner.py %*
