@@ -1,0 +1,6 @@
+#!/bin/bash
+MUSTPTH=$(which mustv2)
+NEWPTH=$(dirname "${MUSTPTH}") # go to parent directory (=bin folder)
+PRLSPTH2="$NEWPTH/MUST.r2-4-002.Release/MUST_Pipe.pl"
+perl "${PRLSPTH2}" $@
+#perl MUST.r2-4-002.Release/MUST_Pipe.pl $@

@@ -1,0 +1,23 @@
+package:
+  name: "transposon_annotation_tools_mustv2"
+  version: "1.0.0"
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - blat
+    - blast
+    - perl 5.26.2
+    - perl-bioperl
+    - perl-bioperl-core 1.007002
+
+about:
+  home: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  license: BSD
+  license_family: BSD
+  summary: "MUSTv2, tool developed by Ge et al. (2017) Journal of integrative bioinformatics, https://doi.org/10.1515/jib-2017-0029, http://www.healthinformaticslab.org/supp/resources.php"
+  doc_url: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  dev_url: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  description: A set of bioconda packages for transposon annotations. During my masterthesis I downloaded lots of these tools and I want to make it easier for the research community to install and run these softwares as bioconda packages from command line. 

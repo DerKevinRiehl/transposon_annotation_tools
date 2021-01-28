@@ -1,0 +1,12 @@
+Spliting the genome into 10 sub-genomes ...  [SubFiles:10] [done] [Elapsed time: 0 seconds]
+Scanning the nucleotide sequences for potential MITEs ...  [Loaded threads:10] [Time:1 seconds]
+Total calculation time elapsed: 56 seconds.
+Loading the annotation data ...  [RawMITEs:8799] [done] [Time:2 seconds]
+Removing redundancy in the predicted MITEs ...  [RuleBasedRemoving:11] [MITE:8788] [done] [Time:2 seconds]
+Clustering ...  [BLAST] [done] [ClusterNum:28] [Time:21 seconds]
+Deciding the strand information of each valid MITE ...  [done] [Time:0 seconds]
+Saving the data ...  [done] [ValidMITENum:238] [Time:1 seconds]
+Screening for all the MITE copies ...  [BackupMITEs:150] [Templates:150] [BLAT] [OtherCopy:0] [Full:150] [Partial:0] [done]
+There are 150 MITEs detected in 3 clusters.
+
+
