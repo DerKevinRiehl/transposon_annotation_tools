@@ -98,11 +98,9 @@ def cluster(file_names, candidates, min_copy_number, FSL, workers):
     import os, shutil
     import math
 
-    fileDirPath = os.path.dirname(os.path.realpath(__file__))
-    print("vsearch library location: ",fileDirPath+'/vsearch-2.7.1/bin/vsearch')
     makelog("Clustering")
     cmd_list = [
-    fileDirPath+'/vsearch-2.7.1/bin/vsearch',
+    'vsearch',
     '--cluster_fast',file_names['file_candidates_fasta'],
     #'--consout',file_names['file_representative'],
     '--threads',str(workers),

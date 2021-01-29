@@ -4,15 +4,15 @@ package:
 
 build:
   number: 0
-  noarch: generic
 
 requirements:
   run:
-    - python 3
+    - python >=3
     - blast
-    - biopython 1.70
+    - biopython >=1.70
     - numpy
     - pandas
+    - vsearch >=2.7
 
 about:
   home: https://github.com/DerKevinRiehl/transposon_annotation_tools
