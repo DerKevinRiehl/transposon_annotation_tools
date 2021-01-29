@@ -1,0 +1,24 @@
+package:
+  name: "transposon_annotation_tools_mitetracker"
+  version: "1.0.0"
+
+build:
+  number: 0
+  noarch: generic
+
+requirements:
+  run:
+    - python 3
+    - blast
+    - biopython 1.70
+    - numpy
+    - pandas
+
+about:
+  home: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  license: BSD
+  license_family: BSD
+  summary: "MiteTrackerv1.0, tool developed by Zavallo et al. (2018) BMC bioinformatics, https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-018-2376-y, https://github.com/INTABiotechMJ/MITE-Tracker"
+  doc_url: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  dev_url: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  description: During my masterthesis on transposon classification, annotation and detection I wrapped and installed various softwares. In order to facilitate future works on transposon research, I wanted to contribute easy-to-install bioconda packages to enable researches to use the softwares from command line. 
