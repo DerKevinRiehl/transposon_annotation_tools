@@ -1,0 +1,11 @@
+echo "@@@"
+echo "%PREFIX%"
+echo "%RECIPE_DIR%"
+echo "@@@"
+
+mkdir "%PREFIX%\Scripts"
+mkdir "%PREFIX%\Scripts\transposon_annotation_tools_mitefinderii"
+copy "%RECIPE_DIR%\bin\miteFinder_windows_x64.exe" "%PREFIX%\Scripts\transposon_annotation_tools_mitefinderii\miteFinder_windows_x64.exe"
+copy "%RECIPE_DIR%\pattern_scoring.txt" "%PREFIX%\Scripts\transposon_annotation_tools_mitefinderii\pattern_scoring.txt"
+copy "%RECIPE_DIR%\miteFinderII.bat" "%PREFIX%\Scripts\miteFinderII.bat"
+echo "copied 3 files"

@@ -1,0 +1,6 @@
+#!/bin/bash
+MUSTPTH=$(which miteFinderII)
+NEWPTH=$(dirname "${MUSTPTH}") # go to parent directory (=bin folder)
+PRLSPTH2="$NEWPTH/transposon_annotation_tools_mitefinderii/miteFinder_mac_x64"
+echo "$PRLSPTH2 -pattern_scoring $NEWPTH/transposon_annotation_tools_mitefinderii/pattern_scoring.txt $@"
+$PRLSPTH2 -pattern_scoring $NEWPTH/transposon_annotation_tools_mitefinderii/pattern_scoring.txt $@
