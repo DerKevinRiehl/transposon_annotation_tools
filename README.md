@@ -6,7 +6,7 @@ In the following list you will find name, publication, URL to conda package, URL
 If you want to install all of them at once, you can simple create a conda environment from the YAML-file that can be found in this Github repository by typing:
 ```
 wget https://raw.githubusercontent.com/DerKevinRiehl/transposon_annotation_tools/main/transposon_annotation_tools_env.yml
-conda env create -f transposon_annotation_tools.yml
+conda env create -f transposon_annotation_tools_env.yml
 ```
 *Note: If you are Windows user you might the check the availability for each of the packages mentioned below for your operating system.*
 
