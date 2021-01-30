@@ -12,7 +12,7 @@ mustv2 demo.fasta result.txt temp
 
 
 ## **Using HelitronScanner** [CondaPackage](https://anaconda.org/derkevinriehl/transposon_annotation_tools_helitronscanner), [Publication](https://doi.org/10.1073/pnas.1410068111), [Code](https://sourceforge.net/projects/helitronscanner/files/)
-In order to run "HelitronScanner" which is a software for the detection of helitron transposons, please run following command:
+In order to run "HelitronScanner" which is a software for the detection of HELITRON transposons, please run following command:
 ```
 helitronscanner -help
 helitronscanner scanHead -g demo.fasta -bs 0 -o scanHead.txt
@@ -30,11 +30,10 @@ sine_finder -V demo.fasta
 
 
 ## **Using MiteTracker** [CondaPackage](https://anaconda.org/derkevinriehl/transposon_annotation_tools_mitetracker), [Publication](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-018-2376-y), [Code](https://github.com/INTABiotechMJ/MITE-Tracker)
-In order to run "HelitronScanner" which is a software for the detection of helitron transposons, please run following command:
+In order to run "MiteTracker" which is a software for the detection of MITE transposons, please run following command:
 ```
-helitronscanner -help
-helitronscanner scanHead -g demo.fasta -bs 0 -o scanHead.txt
-helitronscanner scanTail -g demo.fasta -bs 0 -o scanTail.txt
-helitronscanner pairends -hs scanHead.txt -ts scanTail.txt -o result.txt
+mitetracker -help
+mkdir results
+mitetracker -g demo.fasta -j jobName -w 3
 ```
 
