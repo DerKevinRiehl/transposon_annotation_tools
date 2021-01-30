@@ -3,11 +3,12 @@ A set of bioconda packages for transposon annotation.
 In the following list you will find name, publication, URL to conda package, URL to software and a short tutorial on how to run the package for each of the transposon annotation tools included into this package. Moreover, there is a *Software_Manual.pdf* in this git, containing the help-lines of all softwares mentioned below, as well as a folder *Manuals* with additional PDF files of the software authors.
 
 ## Installation
-If you want to install all of them at once, you can create a conda environment from the YAML-file that can be found in this Github repository by typing:
+If you want to install all of them at once, you can simple create a conda environment from the YAML-file that can be found in this Github repository by typing:
 ```
 wget https://raw.githubusercontent.com/DerKevinRiehl/transposon_annotation_tools/main/transposon_annotation_tools.yml
 conda env create -f transposon_annotation_tools.yml
 ```
+*Note: If you are Windows user you might the check the availability for each of the packages mentioned below for your operating system.*
 
 
 ## **Using MUSTv2** [CondaPackage](https://anaconda.org/DerKevinRiehl/transposon_annotation_tools_mustv2), [Publication](https://doi.org/10.1515/jib-2017-0029), [Code](http://www.healthinformaticslab.org/supp/resources.php)
