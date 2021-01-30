@@ -37,3 +37,10 @@ mkdir results
 mitetracker -g demo.fasta -j jobName -w 3
 ```
 
+
+## **Using MiteFinderII** [CondaPackage](https://anaconda.org/derkevinriehl/transposon_annotation_tools_mitefinderii), [Publication](https://bmcmedgenomics.biomedcentral.com/articles/10.1186/s12920-018-0418-y), [Code](https://github.com/jhu99/miteFinder)
+In order to run "MiteFinderII" which is a software for the detection of MITE transposons, please run following command:
+```
+miteFinderII -help
+miteFinderII -input demo.fasta -output result.txt
+```
