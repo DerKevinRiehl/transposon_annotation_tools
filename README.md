@@ -92,7 +92,7 @@ RepeatModeler -engine ncbi -pa 10 -database demo_index
 ```
 
 
-## **Using RepeatModeler** [CondaPackage](https://anaconda.org/bioconda/repeatmasker), [Code](http://www.repeatmasker.org/)
+## **Using RepeatMasker** [CondaPackage](https://anaconda.org/bioconda/repeatmasker), [Code](http://www.repeatmasker.org/)
 In order to run "RepeatMasker" which is a software for the detection of all classes of transposons and repeats, please run following command:
 ```
 RepeatMasker -help
