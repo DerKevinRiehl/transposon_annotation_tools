@@ -1,0 +1,37 @@
+package:
+  name: "transposon_annotation_tools_sinescan"
+  version: "1.1.1"
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - perl
+  run:
+    - perl 5.26.2
+    - perl-bioperl
+    - perl-bioperl-core 1.007002
+    - perl-statistics-basic
+    - perl-parallel-forkmanager 
+    - perl-getopt-long 
+    - perl-file-path 
+    - perl-class-std 
+    - perl-bio-featureio 
+    - perl-bioperl-run 
+    - dos2unix 
+    - patch
+    - blast
+    - muscle 
+    - bedtools 
+    - emboss 
+    - cd-hit 
+
+about:
+  home: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  license: BSD
+  license_family: BSD
+  summary: "SINE_scanv1.1.1, tool developed by Mao & Wang (2017) Bioinformatics, https://doi.org/10.1093/bioinformatics/btw718, https://github.com/maohlzj/SINE_Scan"
+  doc_url: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  dev_url: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  description: A set of bioconda packages for transposon annotations. During my masterthesis I downloaded lots of these tools and I want to make it easier for the research community to install and run these softwares as bioconda packages from command line. 

@@ -1,0 +1,48 @@
+SINE_Scan package version 1.01
+
+A tool to discover SINEs in raw genomic datasets
+
+Authors: Hongliang Mao and Hao Wang
+Address: Department of Physics, Fudan University, Shanghai, China 200433
+Email: mao.hongliang@163.com
+
+Requirement:
+        - Linux system
+        - Perl 5.8 or higher
+        - BioPerl installed
+        - Perl modeules installed
+          (see "The SINE_Scan (version 1.01) Tutorial" for the full list
+          of modules used)
+        - Blast+ program installed
+        - Python porgram installed
+	- SINE-FINDER.py installed
+        - MUSCLE program installed
+        - EMBOSS program installed
+        - CD-HIT program installed
+	- Bedtools program installed
+	
+How to use:
+1. Read "The SINE_Scan (version 1.01) Tutorial" (attached in the package)
+
+2. Prepare sequences:
+        - Genomic sequences must in FASTA format, with suffix being 
+          'fasta', 'fa' or 'fas'.
+
+3. Install program:
+        - Download SINE_Scan-v1.01.tar.gz
+        - Untar SINE_Scan-v1.01.tar.gz and copy the package of 
+          "SINE_Scan-v1.01" to a folder.
+        - Type "perl SINE_Scan_Installer.pl", and provide pathes for
+          reqired programs according to instructions.
+	- we will patch 'SINE-FINDER.py' by new characters in 'SINE_FINDER.patch' to enhance SINE-FINDER.py.
+
+4. Run program:
+        - Type "perl SINE_Scan_process.pl", and provide parameters accroding to 
+          the instructions
+        
+5. Examples:
+        - For automatic genome-wide SINE annotation, type:
+          perl SINE_Scan_process.pl -s 123 -g Rice.fasta -o Osat -d tmp -z tmp
+          
+        - For verification of SINE candidates, type:
+          perl SINE_Scan_process.pl -s 2 -i sine.fasta -g Rice.fasta -o Osat -d tmp -z tmp

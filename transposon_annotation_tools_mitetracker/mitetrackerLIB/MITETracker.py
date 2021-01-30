@@ -14,7 +14,7 @@ from collections import OrderedDict
 import sys
 import pandas as pd
 from threading import Thread, Lock, active_count
-import queue
+import Queue as queue 
 import logging
 import findir
 

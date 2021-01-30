@@ -1,0 +1,511 @@
+####here we want to find TSDs and check boundary######
+#!usr/bin/perl
+use strict;
+use lib '/mnt/beegfs/home1/miska_copy/riehl/AnnotationTask/SoftwarePackages/BenchmarkAnnotator/sineScan/SINE_Scan-v1.1.1/modules';
+use Statistics::Basic qw(:all);
+use Bio::SimpleAlign;
+use Bio::AlignIO;
+
+if(@ARGV<10){
+	print "$0 <mult fasta file> <size Flank> <size TE end> <min diff> <Sup_SAQ_LR> <Inf_SAQ_M> <Min_iden> <Max dis> <block length> <sites percent>\n";
+	exit(0);
+}
+
+my $file=$ARGV[0];
+my @a=split(/\//,$file);
+my $PassEndList="$a[0]/pass.manual.checkList";
+my $ListNum=$a[1];
+my $sizeFlank=$ARGV[1];
+my $sizeEnd=$ARGV[2];
+my $minDiff=$ARGV[3];
+my $SupFL=$ARGV[4];
+my $InfM=$ARGV[5];
+my $minIden=$ARGV[6];
+my $maxDis=$ARGV[7]-1;
+my $blockLen=$ARGV[8];
+my $siteP=$ARGV[9];
+my $outfile=$file.".SixfyFiftySixty";
+
+open fout,">$outfile.fasta" or die "$!\n";
+open fin,"<$file" or die $!;
+$/=">";
+my $type5s=0;
+my $label=<fin>;
+if($label =~/5S$/){
+	$type5s=1;
+}
+$/="\n";
+while($label=<fin>){
+	$label =~ s/^>//;
+        $label =~ s/\s*$//;
+        $/=">";
+        my $seq=<fin>;
+        $/="\n";
+        $seq =~ s/>$//;
+        $seq =~ s/\s+//g;
+        my $head=substr($seq,0,$sizeFlank);
+        my $tail=substr($seq,-1*$sizeFlank,$sizeFlank);
+        my $homo=substr($seq,$sizeFlank,$sizeEnd).substr($seq,-1*$sizeFlank-$sizeEnd,$sizeEnd);
+	my $total=$head.$homo.$tail;
+#	my $total=$head.$tail;
+	my $L=length($total);
+	my @A=split(/\s+/,$label);
+	print fout">$label L$sizeFlank M$sizeEnd R$sizeFlank\n$total\n";
+}
+close fout;
+close fin;
+system "/usr/bin/muscle -in $outfile.fasta -out $outfile.msa.fasta -maxiters 1 -diags -quiet";
+####find 60 50 60 positions in MSA #####
+my @positionA=();
+my @positionB=();
+my $str = Bio::AlignIO->new(-file => "$outfile.msa.fasta");
+my $aln = $str->next_aln();
+my $nseq= $aln->num_sequences;
+foreach my $seq ($aln->each_seq) {
+	my $count=0;
+	for(my $pos=1;$pos<=$aln->length;++$pos){
+       		my $res = $seq->subseq($pos, $pos);
+		if($res ne '-'){
+			$count++;
+		}	
+		if($count == $sizeFlank){
+			push @positionA,$pos;
+		}elsif($count == ($sizeFlank+2*$sizeEnd)){
+			push @positionB,$pos;
+		}
+	}
+}
+
+my $meanA=int(0.5+mean(@positionA));####left truncated point
+my $meanB=int(0.5+mean(@positionB));####right truncated point
+
+#my ($consensus,$score)=split(/\t/,Similarity("$outfile.msa.fasta"));
+my @consensus=Similarity("$outfile.msa.fasta");
+my $n=@consensus;
+my $L=0;##left region
+my $M=0;##mediate region
+my $R=0;###right region
+my @score=();
+for(my $i=1;$i<$n;$i++){
+	if($consensus[$i] != 0){
+		push @score,$consensus[$i];
+	}
+	if($i == $meanA){
+		$L=mean(@score);
+		@score=();
+	}
+	if($i == $meanB){
+		$M=mean(@score);
+		@score=();
+	}
+}
+$R=mean(@score);
+######judgement condition########
+######high identical region and low identical region,TSD finder####
+my $SINEs=0;
+open OUT,">>$PassEndList" or die "$!\n";
+if(($L<=$SupFL && $R<=$SupFL && $M>=$InfM) || ($M-$L>=$minDiff && $M-$R>=$minDiff)){
+	$SINEs=1;
+#	print "L=$L,H=$M,R=$R\n";
+	print OUT"$ListNum\n";
+}
+close OUT;
+
+####TSD-finder ####
+my $state=0;
+if($SINEs == 1){
+	####it pass the boundary condition######
+	my $String=$aln->consensus_string(30);
+	my @A=();
+	my @B=();
+	my $flag=-1;
+	for(my $i=0;$i<$n;$i++){
+		if($consensus[$i] >= $minIden){
+			push @A,$i;
+		}
+	}
+	my $r="$A[0],";
+	for(my $j=1;$j<@A;$j++){
+		###here I should consider high region and low region's boundary####
+		if($A[$j]-$A[$j-1] > $maxDis){
+			push @B,$r;
+			$r="";
+		}
+		$r.="$A[$j],";
+	}
+	push @B,$r;
+	my $W="";
+	my @C=();
+	for(my $i=0;$i<@B;$i++){
+		my @c=split(/,/,$B[$i]);
+		my $size=@c;
+		my $Len=$c[-1]-$c[0]+1;
+		my $percent=$size/$Len;
+		if($Len > $blockLen && $percent > $siteP){
+			push @C,$i;
+			$W.="$B[$i],";
+		}
+	}
+	my @coordinate=split(/,/,$W);
+	if(scalar(@coordinate) < 2){
+		print "$state\n";
+		exit 0;
+	}
+	my @sign=();
+	push @sign,$coordinate[0];
+	push @sign,$coordinate[-1];	
+	####boundary condition: close enough and meidate all gaps##########
+#	print "@B\n@sign\n";
+	
+	my @c=split(/,/,$B[$C[0]-1]);
+	if(@c <= 10 && $c[-1] < $coordinate[0] && @c >= 2 && $c[-1]+15 > $coordinate[0]){
+		my $string=substr($String,$c[-1]+1,$coordinate[0]-$c[-1]-1);
+		my $R=good_block($B[$C[0]-1]);
+		my $r=gaps_compute($string);	
+#		print "$B[$C[0]-1],$string\n$r,$R\n";
+		if(($r == 1 && $R == 0) or $R == 2){
+	#	if($string!~/[ACGTagct]/){
+			push @sign,$c[0];
+			push @sign,$c[-1];
+			$coordinate[0]=$c[0];
+		}	
+	}
+	@c=split(/,/,$B[$C[-1]+1]);
+#	if(@c <= 10 && $c[0] > $coordinate[-1] && $c[0]-$coordinate[-1] < 5){
+	if(@c <= 10 && $c[0] > $coordinate[-1] && @c >= 2 && $coordinate[-1]+15 > $c[0]){
+		my $string=substr($String,$coordinate[-1]+1,$c[0]-$coordinate[-1]-1);
+		my $R=good_block($B[$C[-1]+1]);
+		my $r=gaps_compute($string);	
+#		print "$string\n$r,$R\n";
+		if(($r == 1 && $R == 0) or $R == 2){
+#		if($string!~/[ACGTagct]/){
+			push @sign,$c[0];
+			push @sign,$c[-1];
+			$coordinate[-1]=$c[-1];
+		}	
+	}
+	@sign=sort{$a<=>$b} @sign;
+	###TSD boundary condition####?
+	my $start=$sign[0];
+	my $end=$sign[-1];
+	my $R=substr($String,$start,$end-$start+1);
+        my $S=reverse($R);
+        $S=~tr/ATCG/TAGC/;
+#	print "$start,$end\n$String\n@B\n$R\n";
+#	print "$R\n$S\n";
+	####TSD up and down###
+	###solo LTR test
+	my $soloLTR=soloLTR_test($R);
+	if($soloLTR == 1){
+		my $count=0;
+		foreach my $seq ($aln->each_seq){
+			my $res = $seq->subseq(1,$start);###5 side
+			my $Res = $seq->subseq($end+2,$n);####3 side
+			$res=~s/-//g;
+			$Res=~s/-//g;
+			for(my $j=5;$j<9;$j++){
+				my $one=substr($res,-$j,$j);
+				my $two=substr($Res,0,$j);
+#				print "$one,$two\n";
+				if($one eq $two){
+					$count++;	
+					last;
+				}
+			}
+			if($count > 1){
+				$soloLTR=2;
+				$state=2;
+				last;
+			}
+		}
+	}
+	###Helitrons_test
+	if($state != 2){
+		my $helitron=Helitron_test($R);
+		if($helitron == 1){
+			$state=2;
+		}
+	}
+	###MITE_test
+	if($state != 2){
+		my $mite=MITE_test($R);
+		if($mite == 1){
+			$state=2;
+		}
+	}
+	my $counter=0;
+	my $nseq= $aln->num_sequences;
+	my %order=();########each sequence 's name - boundary position#########
+	my $toolong=0;
+	foreach my $seq ($aln->each_seq) {
+		if($state == 2){
+			last;	
+		}
+		my $res = $seq->subseq(1,$start);
+		my $name=$seq->display_name();
+		while($res=~/-/){
+			$res=~s/-+//;
+		}
+		my $S=length($res);
+		my $Res = $seq->subseq($end,$n);####3 side
+		while($Res=~/-/){
+			$Res=~s/-+//;
+		}
+		my $E=length($Res);
+		$order{$name}="$S\t$E";
+		####TSD length condition #############
+		if($S < 40 or  $E < 40){
+			$toolong++;
+		}
+	}
+	if($toolong > 0.5*$nseq){
+		$state=-1;
+	}
+	foreach my $seq ($aln->each_seq) {
+		if($state == -1 || $state == 2){
+			print "$state\n";
+			last;
+		}
+		if($type5s == 1){
+			$state=1;###one bug, 20161006
+			print "1\n";
+			last;
+		}
+       		my $res = $seq->subseq(1,$start);
+		while($res=~/-/){
+			$res=~s/-+//;
+		}
+		my $Res = $seq->subseq($end,$n);####3 side
+		while($Res=~/-/){
+			$Res=~s/-+//;
+		}
+		if($res=~/A{3,}$/ or $res=~/T{3,}$/){
+			$res=~s/A{3,}$//;
+			$res=~s/T{3,}$//;
+		}
+		my $flank_tsd=15;
+		$res=substr($res,-$flank_tsd,$flank_tsd);####5 side
+		if($Res=~/^A{3,}/ or $Res=~/^T{3,}/){
+			$Res=~s/^A{3,}//;
+			$Res=~s/^T{3,}//;
+		}
+#		print "$res\n$Res\n";
+#######moving frame to detect TSD#################moving the 'TSD' of 5' side over 3' side sequence###########
+		for(my $i=6;$i<$flank_tsd+5;$i++){
+			my $s=0;
+			if($i-$flank_tsd > 0){
+				$s=$i-15;
+			}else{
+				$s=0;
+			}
+			my $ser=substr($res,-$i,$i);
+			my $Ser=substr($Res,$s,$i-$s);
+			open fout, ">$file.tsd.fa" or die "$!\n";
+			print fout">one\n$ser\n>two\n$Ser\n";
+			close fout;
+			system "/usr/bin/muscle -in $file.tsd.fa -out $file.tsd.msa.fasta -maxiters 1 -diags -quiet";
+			if(! -e "$file.tsd.msa.fasta"){
+				next;
+			}
+			my $str = Bio::AlignIO->new(-file => "$file.tsd.msa.fasta");
+			my $ALN=$str->next_aln();
+			my $cons=$ALN->consensus_string(80);	
+			my $CONS=$cons;
+	#		print "$ser\n$Ser\n$CONS\n";	
+			while($cons=~/\?/){
+				$cons=~s/\?//;
+			}
+			my $OKbase=0;
+			my $percent=length($cons)/length($ser);
+			if($i < 8 and $CONS=~/\w{4,}/ and $percent > 0.7){
+				$OKbase=1;
+			}elsif($CONS=~/\w{6,}/ and $percent > 0.5){
+				$OKbase=1;
+			}
+			if($OKbase == 1){
+#				print "$ser\n$Ser\n$CONS\n";	
+				$counter++;
+				last;
+			}
+		}
+		if($counter == 2 or ($nseq < 7 and $counter == 1)){
+			$state=1;
+			print "$state\n";
+			open fout,">$file.order" or die "$!\n";
+			foreach my $i (keys%order){
+				print fout">$i\n$order{$i}\n";
+			}
+			close fout;
+			last;
+		}
+	}
+	undef%order;
+	if(-e "$file.tsd.fa"){
+		system "rm $file.tsd.fa $file.tsd.msa.fasta";
+	}
+	if($state == 0){
+		print "$state\n";
+	}
+}else{
+	print "$L,$M,$R\n";
+}
+#system "rm $outfile.fasta $outfile.msa.fasta";
+
+sub Similarity{
+        my $fl=$_[0];
+        my $str = Bio::AlignIO->new(-file => $fl);
+        my $aln = $str->next_aln();
+#	print $aln->consensus_string(0)."\n";
+	my $nseq= $aln->num_sequences;
+        my @consensus;
+        my @conperc;
+        for(my $pos=1;$pos<=$aln->length;++$pos){
+                my %count;
+                foreach my $seq ($aln->each_seq) {
+                        my $res = $seq->subseq($pos, $pos);
+                        $count{$res}+=1;
+                }
+                my $cons=(reverse sort {$count{$a}<=>$count{$b}} keys %count)[0];
+                my $perc=$count{$cons}/$nseq;
+		my $gap=$count{'-'}/$nseq;
+		delete $count{'-'};
+		my $n=keys%count;
+		if($nseq >= 8 && $nseq-$n <= 2 && $perc < 0.8 && $cons ne '-' && $gap < 0.2){
+			$perc=0.8;
+		}
+		#######here question????#######
+                if($cons!~/[ACGTagct]/ && $perc >= 0.8){
+                        $cons="N";
+			$perc=0;
+                }
+	       	push(@consensus,$cons);
+        	push(@conperc,$perc);
+        }
+	return(@conperc);
+}
+
+sub MITE_test{
+	my $str=$_[0];
+	while($str=~/\?/){
+		$str=~s/\?//;
+	}
+	my $head=substr($str,0,20);
+        $head=reverse($head);
+        $head=~tr/ATCG/TAGC/;
+        $head=~tr/atcg/tagc/;
+	my $tail=substr($str,-20,20);
+	open out,">$file.mite.test.fa" or die "$!\n";
+	print out">1\n$head\n>2\n$tail\n";
+	close out;
+	system "/usr/bin/muscle -in $file.mite.test.fa -out $file.mite.fasta -maxiters 1 -diags -quiet";
+	if(! -e "$file.mite.fasta"){
+		return 0;
+	}
+	$str = Bio::AlignIO->new(-file => "$file.mite.fasta");
+	my $aln = $str->next_aln();
+	my $String=$aln->consensus_string(100);
+	my $string=$String;
+#	print "$string,$String\n";
+	system "rm $file.mite.test.fa $file.mite.fasta";
+	my $flag=0;
+	my $L=length($string);
+	for(my $i=$L-10;$i>$L-15;$i--){
+		my $S=substr($String,$i,10);
+#		print "$S\n";
+		my $s=$S;
+		$s=~s/\?//g;
+		my $percent=length($s)/10;
+		if($percent >= 0.7 or ($S=~/\w{4,}/ and $percent >= 0.6)){
+			$flag=1;
+			last;
+		}
+	}
+	if($tail=~/A{3,}$/ or $tail=~/T{3,}$/ or $head=~/A{3,}$/ or $head=~/T{3,}$/){
+		$flag=0;	
+	}
+	if($flag == 1){
+		return 1;
+	}else{
+		return 0;
+	}
+}
+
+sub Helitron_test{
+	my $str=$_[0];
+	while($str=~/\?/){
+		$str=~s/\?//;
+	}
+	$str=uc($str);
+        my $Str=reverse($str);
+        $Str=~tr/ATCG/TAGC/;
+	my $head=substr($str,0,7);
+	my $Head=substr($Str,0,7);
+	###5-end *ATCT or ATCC*
+	my $right=0;
+	my $tail=substr($str,-7,7);
+	my $Tail=substr($Str,-7,7);
+	if($head=~/^\w{0,2}TCT/ or $head=~/^\w{0,2}TCC/ or $head=~/TACT|TAC/){
+		$right=1;
+	}
+	if($Head=~/^\w{0,2}TCT/ or $Head=~/^\w{0,2}TCC/ or $Head=~/TACT|TAC/){
+		$right=1;
+	}
+	###3-end "CTAG"
+	my $left=0;
+	$Tail=~s/A$//g;
+	$Tail=~s/T$//g;
+	$tail=~s/A$//g;
+	$tail=~s/T$//g;
+	if($tail=~/CTAG/ or $Tail=~/CTAG/){
+		$left=1;
+	}
+	if($right == 1 && $left == 1){
+		return 1;
+	}else{
+		return 0;	
+	}
+}
+
+sub soloLTR_test{
+	my $str=$_[0];
+	while($str=~/\?/){
+		$str=~s/\?//;
+	}
+	my $head=substr($str,0,3);
+	my $tail=substr($str,-3,3);
+	if(($head=~/TG/ and $tail=~/CA|AT|TA/) or ($head=~/CA|AT|TA/ and $tail=~/TG/)){
+		return 1;
+	}else{
+		return 0;
+	}
+}
+
+sub gaps_compute{
+	my $str=$_[0];
+	my $b=length($str);	
+	while($str=~/\?/){
+		$str=~s/\?//;
+	}
+	my $a=length($str);
+	my $percent=int($a*100/$b)/100;
+	if($percent <= 0.2){
+		return 1;
+	}else{
+		return 0;
+	}
+}
+
+sub good_block{
+	my $str=$_[0];
+	my @a=split(/,/,$str);
+	my $block_size=$a[-1]-$a[0]+1;
+	my $high_points=@a;
+	my $percent=int($high_points*100/$block_size)/100;
+	if($percent < 0.5 or $high_points < 2){
+		return 1;
+	}elsif($percent >= 0.8){
+		return 2;
+	}else{
+		return 0;
+	}
+}

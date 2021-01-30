@@ -5,7 +5,7 @@ from Bio import SeqIO
 from subprocess import Popen, PIPE
 import os
 from Bio.SeqUtils import GC
-import queue
+import Queue as queue
 import logging
 
 def complex_enough(seq):

@@ -1,0 +1,6 @@
+#!/bin/bash
+MUSTPTH=$(which sinescan)
+NEWPTH=$(dirname "${MUSTPTH}") # go to parent directory (=bin folder)
+PRLSPTH2="$NEWPTH/SINE_Scan-v1.1.1/SINE_Scan_process.pl "
+echo "perl ${PRLSPTH2} $@"
+perl ${PRLSPTH2} $@

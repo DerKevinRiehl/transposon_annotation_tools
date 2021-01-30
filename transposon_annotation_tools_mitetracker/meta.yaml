@@ -3,15 +3,16 @@ package:
   version: "1.0.0"
 
 build:
-  number: 0
+  number: 3
 
 requirements:
   run:
-    - python >=3
+    - python
     - blast
-    - biopython >=1.70
+    - biopython
     - numpy
     - pandas
+    - statistics
     - vsearch >=2.7
 
 about:

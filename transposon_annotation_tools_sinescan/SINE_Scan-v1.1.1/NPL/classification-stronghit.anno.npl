@@ -1,0 +1,411 @@
+#!usr/bin/perl
+use strict;
+use Bio::AlignIO;
+use Bio::Align::PairwiseStatistics;
+use File::Basename;
+
+if(@ARGV != 10){
+	print "$0 <genomic-TE-mapping sequence> <output-prefix> <genus_species_strain:care '-'> <cd-hit one> <cd-hit two> <blast-one> <rna-one> <rna-two> <outputDir> <family file>\n";
+	print "Be sure TE database file and genome-mapped file have been formated for blast\n";
+	exit(0);
+}
+
+my $script=dirname($0);
+my $te="_SINEsbase_";
+my $genome=$ARGV[0];
+my $prefix=$ARGV[1];
+my $tRNA="_RNAbase_";
+my @A=split(/_/,$ARGV[2]);
+#####cd-hit parameters#########
+my $cd_one=$ARGV[3];##identity
+my $cd_two=$ARGV[4];##overlap in length
+#####blast filter parameter####
+my $Blast_cut=$ARGV[5];
+####rna align parameters########
+my $rna_one=$ARGV[6];###identity
+my $rna_two=$ARGV[7];##overlap in length
+my $outputDir=$ARGV[8];###the directory of SINEs annotation files
+my $Family=$ARGV[9];
+
+my $n=@A;
+my $speciesname=$ARGV[2];###to every users##########
+
+my %MAP_class=();
+open FIN,"$prefix.assignRegionToTE.normal" or die $!;###useful now
+my $u;
+my @map_class=();
+my %direction=();
+while(<FIN>){
+	chomp $_;
+	my @a=split(/\t/,$_);
+	my $flag="+";
+	if($a[8]-$a[9] > 0){
+		$flag='-';
+	}
+	$direction{$a[0]}=$flag;
+	if($u!~$a[0]){
+		if(!exists $MAP_class{$a[1]}){
+			push @map_class,$a[1];
+		}
+		$MAP_class{$a[1]}.="$a[0],";
+	}
+	$u.="$a[0],";
+}
+close FIN;
+
+open IN,$Family or die "$!\n";
+my %sequence=();
+while(<IN>){
+	chomp $_;
+	if($_=~/>/){
+		$_=~s/>//;
+		$u=$_;
+		$sequence{$u}="";
+	}else{
+		$sequence{$u}.=uc($_);
+	}
+}
+close IN;
+
+$Family=~s/\.fa$/\.fa2/;
+open out,'>',$Family or die "$!\n";
+foreach my $i (@map_class){
+	my @s=split(/,/,$MAP_class{$i});
+	if(@s != 0){
+		print out">$i\n$sequence{$i}\n";		
+	}
+}
+close out;
+@map_class=();
+if(!-s $Family){
+	print "This genomic dataset doesn't has any SINEs under parameter settings of this running round\n";
+	exit 0;
+}
+
+system "_cd_hit_est_ -i $Family  -o $Family.cluster -n 10 -c $cd_one -d 0 -r 1 -s $cd_two -aS $cd_two -aL $cd_two";
+
+my $line;
+my %cluster=();
+my %represent=();
+my %Represent=();
+my %negative=();
+my %Num=();
+open IN,$Family.".cluster.clstr" or die "$!\n";
+my $u;
+while(defined($line=<IN>)){
+	chomp $line;
+	if($line=~/^>/){
+		$line=~s/>//;
+		my @p=split(/\s+/,$line);
+		$line=~s/\s/_/;
+		$u=$line;
+		$Num{$u}=$p[-1];
+	}else{
+		my @a=split(/\s/,$line);
+		$a[2]=~s/>//;
+		$a[2]=~s/\.{3}//;
+		$cluster{$a[2]}=$u;
+		$represent{$u}.="$a[2],";
+		$_=$a[-1];
+		(my $r)=/(.*)\/\d+/;
+		$negative{$a[2]}=$r;
+		if($line=~/\*/){
+			$Represent{$u}=$a[2];
+			$negative{$a[2]}='+';
+		}
+	}
+}
+close IN;
+
+my $out=$prefix.".tab";
+system "_blastall_  -task blastn -query $Family.cluster -db $te -max_target_seqs 100000 -evalue 1e-10 -dust no -outfmt 6 -out $out";
+
+open IN,$te or die "$!\n";
+my %length=();
+my $u="";
+while(defined($line=<IN>)){
+	chomp $line;
+	if($line=~/>/){
+		$line=~s/>//;
+		$u=$line;
+		$length{$u}=0;	
+	}else{
+		$length{$u}+=length($line);
+	}
+}
+close IN;
+
+open IN,"$Family.cluster" or die "$!\n";
+my %seq=();
+while(defined($line=<IN>)){
+	chomp $line;
+	if($line=~/>/){
+		$u=$line;
+		$u=~s/>//;
+	}else{
+		$seq{$u}.=uc($line);
+	}
+}
+close IN;
+
+
+open IN,$out or die "$!\n";
+my %mapped=();
+my %E_value=();
+my %REV=();
+while(defined($line=<IN>)){
+	chomp $line;
+	my @a=split(/\t/,$line);
+	my $identity=$a[2]*$a[3];
+	my $A=length($seq{$a[0]});
+	my $B=$length{$a[1]};
+	my $c=$identity/$A;
+	my $d=$identity/$B;
+	if($c > $Blast_cut and $d > $Blast_cut){
+		if(exists $mapped{$a[0]}){
+			if($a[-2] < $E_value{$a[0]}){
+				$E_value{$a[0]}=$a[-2];	
+				$mapped{$a[0]}=$a[1];
+			}
+		}else{
+			$mapped{$a[0]}=$a[1];
+			if($a[8] > $a[9]){
+				my $S=reverse($seq{$a[0]});
+				$S=~tr/ATCG/TAGC/;
+				$seq{$a[0]}=$S;
+				$REV{$a[0]}=1;
+			}
+		}
+	}
+}
+close IN;
+undef%E_value;
+undef%length;
+
+foreach my $i (keys%represent){
+	my @a=split(/,/,$represent{$i});
+	$represent{$i}="$Represent{$i},";
+	my $Sign=$negative{$Represent{$i}};
+	foreach my $j (@a){
+		if(exists $REV{$Represent{$i}}){
+			if($negative{$j} eq $Sign){
+				$negative{$j}='-';
+			}else{
+				$negative{$j}='+';
+			}
+		}
+		my @b=split(/,/,$MAP_class{$j});
+		foreach my $k (@b){
+			if($direction{$k} eq $negative{$j}){
+				$direction{$k}='+';
+			}else{
+				$direction{$k}='-';
+			}
+		}
+		$represent{$i}.=$MAP_class{$j};
+	}
+}
+
+#open OUT_1,'>',$prefix.".mappedToknown.gff" or die "$!\n";
+my %unmapped=();
+my %ID=();
+foreach my $j (keys%represent){
+	if(exists $mapped{$Represent{$j}}){
+		my @P=split(/,/,$represent{$j});
+		my $Order=0;
+		foreach my $i (@P){	
+			my @s=split(/:/,$i);
+			my @a=split(/-/,$s[1]);	
+			my @b=split(/\|/,$mapped{$Represent{$j}});
+			###classification name####
+			$b[1]=~s/5S/RSS/;
+			$b[1]=~s/7SL/RSL/;
+			$b[1]=~s/tRNA/RST/;
+			$b[1]=~s/Unknown/RSX/;
+#			my $id="$s[0]:$s[1]|$speciesname|$cluster{$i}|$b[1]_KnownBase";
+			my $id="$b[1]-$speciesname-$j-$Order#SINE  match=$mapped{$Represent{$j}}";
+			$Order++;
+			$ID{$i}=$id;
+#			print OUT_1 "$s[0]\tSINEscan\tSINE\t$a[0]\t$a[1]\t$s[-1]\tgene_id=",$id,"\n";
+		}
+	}else{
+		$unmapped{$Represent{$j}}=$represent{$j};
+	}
+}
+#close OUT_1;
+my $C=keys%cluster;
+my $D=keys%mapped;
+undef%mapped;
+
+my $flag=0;
+open IN,"$Family.cluster" or die "$!\n";
+my %seqs_unmapped=();
+while(defined($line=<IN>)){
+	chomp $line;
+	if($line=~/>/){
+		$line=~s/>//;
+		if(exists $unmapped{$line}){
+			$flag=1;
+#			while($line=~/\|/){	
+#				$line=~s/\|/_/;
+#			}
+			$u=$line;
+			$seqs_unmapped{$u}="";
+		}else{
+			$flag=0;
+		}
+	}elsif($flag == 1){
+		$seqs_unmapped{$u}.=uc($line);
+	}
+}
+close IN;
+my $RRR=keys%Represent;
+
+
+###tRNA blast###
+open IN,$tRNA or die "$!\n";
+my %trna=();
+while(defined($line=<IN>)){
+	chomp $line;
+	if($line=~/>/){
+		$line=~s/>//;
+		$trna{$line}="";
+		$u=$line;	
+	}else{
+		$trna{$u}.=$line;
+	}
+}
+close IN;
+
+my %R=();
+my %r_score=();
+foreach my $j (keys%seqs_unmapped){
+	open OUT_1,'>',"$prefix.one.fa" or die "$!\n";
+	my $J=$j;
+	my $seq=substr($seqs_unmapped{$j},0,100);
+	print OUT_1">$J\n$seq\n";
+	my $A=length($seq);
+#	my $A=length($seqs_unmapped{$j});
+	close OUT_1;
+	$R{$j}="RSX";
+	print "$j\n";
+#	system "mkdir $dir";
+	foreach my $k (keys%trna){
+		open OUT_2,'>',"$prefix.two.fa" or die "$!\n";
+		my $B=length($trna{$k});
+		print OUT_2">$k\n$trna{$k}\n";	
+		close OUT_2;
+		system "_stretcher_ -asequence $prefix.one.fa -bsequence $prefix.two.fa -outfile $prefix.align -aformat fasta";
+#		system "perl Sine_tRNA.pl align $A $B >>$trna_con";
+		my $AlignFile=$prefix.".align";
+		my $align=Bio::AlignIO->new(-file => $AlignFile,-format=>'fasta');
+		my $stat=Bio::Align::PairwiseStatistics->new();
+		my $aln=$align->next_aln();
+		my $gap=$stat->number_of_gaps($aln);
+		my $difference=$stat->number_of_differences($aln);
+		my $L=$stat->number_of_comparable_bases($aln);
+			
+		my $P1=($L-$difference)/$A;
+		my $P2=($L-$difference)/$B;
+		if($P2 > $rna_one and $L > $rna_two){ 
+			$_=$k;##highest score rule
+			if(exists $R{$j}){
+				if($r_score{$j} < $P2){
+					$R{$j}=$k;
+					$r_score{$j}=$P2;
+				}
+			}else{
+				$R{$j}=$k;
+				$r_score{$j}=$P2;
+			}
+		#	last;
+		}
+	}
+	system "rm $prefix.one.fa $prefix.two.fa $prefix.align";
+}
+undef%seqs_unmapped;
+undef%trna;
+
+###unmapped sine annotation###
+
+foreach my $j (keys%unmapped){
+	my @s=split(/,/,$unmapped{$j});
+	###classification name####
+	my $Order=0;
+	foreach my $i (@s){
+		my $id="";
+		if(exists $R{$j}){
+			my $rn=$R{$j};
+			if($rn=~/tRNA/){
+				$rn="RST";
+			}elsif($rn=~/5S/){
+				$rn="RSS";
+			}elsif($rn=~/7SL/){
+				$rn="7SL";
+			}else{
+				$rn="RSX";
+			}
+			$id="$rn-$speciesname-$cluster{$j}-$Order#SINE  match=NEW";
+			$Order++;
+		}else{
+			my $rn="RSX";
+			$id="$rn-$speciesname-$cluster{$j}-$Order#SINE  match=NEW";
+			$Order++;
+		}
+		$ID{$i}=$id;
+	}
+}
+undef%R;
+undef%mapped;
+
+####output three files gff,all fasta, represent fasta####
+open IN,$genome or die "$!\n";
+open OUT_1,'>',"$outputDir/".$speciesname.".sine.gff" or die "$!\n";
+open OUT_2,'>',"$outputDir/".$speciesname.".sine.fasta" or die "$!\n";
+open OUT_3,'>',"$outputDir/".$speciesname.".represent.sine.fasta" or die "$!\n";
+my $flag=0;
+while(defined($line=<IN>)){
+	chomp $line;
+	if($line=~/>/){
+		my @a=split(/:/,$line);
+		$u="$a[0]:$a[1]";	
+		$u=~s/>//;
+	}else{
+		$seq{$u}.=uc($line);
+	}
+}
+close IN;
+
+
+foreach my $i (sort{$Num{$a}<=>$Num{$b}} keys%Num){
+	my @p=split(/,/,$represent{$i});	
+	foreach my $line (@p){
+		if(!exists $cluster{$line}){
+			my @a=split(/:/,$line);
+			my @s=split(/-/,$a[1]);
+			my $DI=$ID{$line};
+			$DI=~s/\s+match/;match/;
+			print OUT_1"$a[0]\tSINEscan\tSINE\t$s[0]\t$s[1]\t.\t$direction{$line}\t.\tID=",$DI,"\n";	
+			if($direction{$line} eq '-'){
+				$seq{$line}=reverse($seq{$line});
+				$seq{$line}=~tr/ATCG/TAGC/;
+			}
+			print OUT_2">$ID{$line}\n$seq{$line}\n"; 
+		}
+		if($Represent{$cluster{$line}} eq $line){
+			$flag=1;
+			my @A=split(/-/,$ID{$line});
+			$_=$ID{$line};
+			(my $r)=/\s+(.*)/;
+			print OUT_3 ">$A[0]-$A[1]-$A[2]#SINE  $r\n$seq{$line}\n";
+		}
+	}
+}
+undef%ID;
+undef%Represent;
+undef%cluster;
+undef%direction;
+undef%represent;
+close OUT_1;
+close OUT_2;
+close OUT_3;
