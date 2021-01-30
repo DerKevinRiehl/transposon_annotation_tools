@@ -1,6 +1,6 @@
 # transposon_annotation_tools
 A set of bioconda packages for transposon annotation. 
-In the following list you will find name, publication, url to conda package, url to software and a short tutorial on how to run the package for each of the transposon annotation tools included into this package. Moreover, there is a Software_Manual.pdf in this git, containing the help-lines of all softwares mentioned below, as well as a folder "Manuals" with additional PDF files of the software authors.
+In the following list you will find name, publication, URL to conda package, URL to software and a short tutorial on how to run the package for each of the transposon annotation tools included into this package. Moreover, there is a *Software_Manual.pdf* in this git, containing the help-lines of all softwares mentioned below, as well as a folder *Manuals* with additional PDF files of the software authors.
 
 ## Installation
 If you want to install all of them at once, you can create a conda environment from the YAML-file that can be found in this Github repository by typing:
@@ -8,8 +8,6 @@ If you want to install all of them at once, you can create a conda environment f
 wget https://raw.githubusercontent.com/DerKevinRiehl/transposon_annotation_tools/main/transposon_annotation_tools.yml
 conda env create -f transposon_annotation_tools.yml
 ```
-
-simple examples how to run 
 
 
 ## **Using MUSTv2** [CondaPackage](https://anaconda.org/DerKevinRiehl/transposon_annotation_tools_mustv2), [Publication](https://doi.org/10.1515/jib-2017-0029), [Code](http://www.healthinformaticslab.org/supp/resources.php)
@@ -101,5 +99,5 @@ RepeatMasker -pa 10 demo.fasta
 
 
 ## Background
-During my masterthesis I downloaded lots of these tools and I want to make it easier for the research community to install and run these softwares as bioconda packages from command line. Therefore I packaged these softwares into conda packages. Please note: I am not the author of the softwares. My contribution lies in creating conda packages to allow a broader bioinformatic audience to use these tools. To find more specific information on the softwares, please refer to the urls mentioned below. 
+During my masterthesis, I downloaded lots of these tools and I want to make it easier for the research community to install and run these softwares as bioconda packages from command line. Therefore, I packaged these softwares into conda packages. Please note: I am not the author of the softwares. My contribution lies in creating conda packages to allow a broader bioinformatic audience to use these tools. To find more specific information on the softwares, please refer to the URLs mentioned above. 
 
