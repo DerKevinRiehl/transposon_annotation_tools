@@ -1,4 +1,4 @@
-name: test2Env
+name: transposon_annotation_tools
 channels:
   - derkevinriehl
   - bioconda
