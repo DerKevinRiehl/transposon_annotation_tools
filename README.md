@@ -55,4 +55,20 @@ sinescan -s 123 -g demo.fasta -o result.txt -d result/
 ```
 
 
+## **Using TirVish** [CondaPackage](https://anaconda.org/bioconda/genometools), [Publication](https://ieeexplore.ieee.org/abstract/document/6529082), [Code](http://genometools.org/tools/gt_tirvish.htmln)
+In order to run "TirVish" which is a software for the detection of TIR transposons, please run following command:
+```
+gt suffixerator -db demo.fasta -indexname demo.index -tis -suf -lcp -des -ssp -sds -dna -mirrored
+gt tirvish -index demo.index > result.txt
+```
+
+
+## **Using LtrHarvest** [CondaPackage](https://anaconda.org/bioconda/genometools), [Publication](https://link.springer.com/article/10.1186/1471-2105-9-18), [Code](https://www.zbh.uni-hamburg.de/forschung/gi/software/ltrharvest.html)
+In order to run "LtrHarvest" which is a software for the detection of LTR transposons, please run following command:
+```
+gt suffixerator -db demo.fasta -indexname demo.index -tis -suf -lcp -des -ssp -sds -dna
+gt ltrharvest -index demo.index > result.txt
+```
+
+
 
