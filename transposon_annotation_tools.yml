@@ -1,4 +1,4 @@
-name: transposon_annotation_tools
+name: transposon_annotation_tools_env
 channels:
   - derkevinriehl
   - bioconda
