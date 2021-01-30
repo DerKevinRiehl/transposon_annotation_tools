@@ -44,3 +44,15 @@ In order to run "MiteFinderII" which is a software for the detection of MITE tra
 miteFinderII -help
 miteFinderII -input demo.fasta -output result.txt
 ```
+
+
+## **Using SineScan** [CondaPackage](https://anaconda.org/derkevinriehl/transposon_annotation_tools_sinescan), [Publication](https://doi.org/10.1093/bioinformatics/btw718), [Code](https://github.com/maohlzj/SINE_Scan)
+In order to run "SineScan" which is a software for the detection of SINE transposons, please run following command:
+```
+sinescan -help
+mkdir result
+sinescan -s 123 -g demo.fasta -o result.txt -d result/
+```
+
+
+
