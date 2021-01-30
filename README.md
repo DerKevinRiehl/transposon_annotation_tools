@@ -71,4 +71,12 @@ gt ltrharvest -index demo.index > result.txt
 ```
 
 
+## **Using RepeatModeler** [CondaPackage](https://anaconda.org/bioconda/repeatmodeler), [Code](http://www.repeatmasker.org/RepeatModeler/)
+In order to run "RepeatModeler" which is a software for the detection of all classes of transposons and repeats, please run following command:
+```
+BuildDatabase -name demo_index -engine ncbi demo.fasta
+RepeatModeler -engine ncbi -pa 10 -database demo_index
+```
+
+
 
