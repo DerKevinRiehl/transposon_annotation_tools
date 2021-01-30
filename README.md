@@ -1,5 +1,14 @@
 # transposon_annotation_tools
-A set of bioconda packages for transposon annotations. During my masterthesis I downloaded lots of these tools and I want to make it easier for the research community to install and run these softwares as bioconda packages from command line. 
+A set of bioconda packages for transposon annotation. During my masterthesis I downloaded lots of these tools and I want to make it easier for the research community to install and run these softwares as bioconda packages from command line. Therefore I packaged these softwares into conda packages. 
+
+In the following list you will find name, publication, url to conda package and url to software of each transposon annotation tool included into this package.
+If you want to install all of them at once, you can create a conda environment from the YAML-file that can be found in this Github repository by typing:
+```
+wget transposon_annotation_tools.yml
+conda env create -f transposon_annotation_tools.yml
+```
+
+simple examples how to run 
 
 
 ## **Using MUSTv2** [CondaPackage](https://anaconda.org/DerKevinRiehl/transposon_annotation_tools_mustv2), [Publication](https://doi.org/10.1515/jib-2017-0029), [Code](http://www.healthinformaticslab.org/supp/resources.php)
