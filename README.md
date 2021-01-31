@@ -61,7 +61,9 @@ In order to run "SineScan" which is a software for the detection of SINE transpo
 ```
 sinescan -help
 mkdir result
-sinescan -s 123 -g demo.fasta -o result.txt -d result/
+mkdir output
+mkdir final
+sinescan -s 123 -g demo.fasta -o output -d result -z final
 ```
 
 
