@@ -1,0 +1,27 @@
+#!/usr/local/bin/perl
+
+use lib ("PerlLib", ## common functions 
+         "TransposonPerlLib"); ## custom functions for here.
+
+use DBI;
+use Mysql_connect;
+use CGI;
+use CGI::Carp qw(fatalsToBrowser); 
+use strict;
+use Data::Dumper;
+use TransposonDB_API;
+
+
+$|++;
+
+my $cgi = new CGI();
+
+my %params = $cgi->Vars();
+
+print $cgi->header();
+
+my ($dbproc) = &connect_to_db("localhost","TransposonDB","access","access");
+
+
+print $cgi->start_html();
+

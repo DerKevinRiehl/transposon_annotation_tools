@@ -1,0 +1,22 @@
+package:
+  name: "transposon_annotation_tools_transposonpsicli"
+  version: "1.0.0"
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - python
+    - perl >=5.8
+    - perl-bioperl >=1.7.2
+    - blast-legacy=2.2.26
+
+about:
+  home: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  license: BSD
+  license_family: BSD
+  summary: "TransposonPSIv1.0, tool developed by Brian Haas (2010), http://transposonpsi.sourceforge.net/"
+  doc_url: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  dev_url: https://github.com/DerKevinRiehl/transposon_annotation_tools
+  description: A set of bioconda packages for transposon annotations. During my masterthesis I downloaded lots of these tools and I want to make it easier for the research community to install and run these softwares as bioconda packages from command line. 

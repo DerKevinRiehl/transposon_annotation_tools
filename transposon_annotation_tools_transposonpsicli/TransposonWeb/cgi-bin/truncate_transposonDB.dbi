@@ -1,0 +1,18 @@
+#!/usr/local/bin/perl
+
+use lib ("PerlLib", ## common functions 
+	 "TransposonPerlLib"); ## custom functions for here.
+
+use DBI;
+use Mysql_connect;
+
+my ($dbproc) = &connect_to_db("localhost","TransposonDB","access","access");
+
+foreach my $table ("CDS_coords", "GenomeSeqRecord", "FeatureSequence", "RepeatLink", "TransposonFeature", "TransposonLink", 'FeatureAnnots') {
+    my $query = "delete from $table";
+    &RunMod($dbproc, $query);
+}
+
+$dbproc->disconnect;
+
+
