@@ -12,6 +12,7 @@ dependencies:
   - bedtools=2.30.0=hc088bd4_0
   - biopython=1.68=py27_0
   - blast=2.10.1=pl526he19e7b1_3
+  - blast-legacy=2.2.26=2
   - blat=36=0
   - bzip2=1.0.8=h7f98852_4
   - c-ares=1.11.0=h470a237_1
@@ -338,6 +339,7 @@ dependencies:
   - transposon_annotation_tools_mustv2=1.0.0=0
   - transposon_annotation_tools_sinefinder=1.0.1=0
   - transposon_annotation_tools_sinescan=1.1.1=pl5262_0
+  - transposon_annotation_tools_transposonpsicli=1.0.0=0
   - trf=4.09.1=h516909a_0
   - unicodecsv=0.14.1=py_1
   - unittest2=1.1.0=py_0
@@ -366,4 +368,4 @@ dependencies:
   - xz=5.2.5=h516909a_1
   - zlib=1.2.11=h516909a_1010
   - zstd=1.4.8=ha95c52a_1
-prefix: /mnt/home3/riehl/miniconda3/envs/test2Env
+prefix: /mnt/home3/riehl/miniconda3/envs/transposon_annotation_tools_env
