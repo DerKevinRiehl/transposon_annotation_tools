@@ -107,10 +107,9 @@ In order to run "TransposonPSI" which is a software for the detection of protein
 ```
 mkdir temp
 mkdir result
-transposonPSI -fastaFile demo.fasta -resultFolder result -tempFolder temp -mode nuc # options are 'nuc' and 'prot'
-...(in progress)...
+transposonPSI -fastaFile demo.fasta -resultFolder result -tempFolder temp -mode nuc 
+# modes: 'nuc' and 'prot'
 ```
-
 
 
 ## Background
