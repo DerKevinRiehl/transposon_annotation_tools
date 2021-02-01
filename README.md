@@ -102,6 +102,15 @@ RepeatMasker -pa 10 demo.fasta
 ```
 
 
+## **Using TransposonPSI** [CondaPackage](https://anaconda.org/bioconda/transposonpsi), [Code](http://transposonpsi.sourceforge.net/)
+In order to run "TransposonPSI" which is a software for the detection of proteins characteristic for transposons, please run following command:
+```
+transposonPSI.pl -help
+...(in progress)...
+```
+
+
+
 ## Background
 During my masterthesis, I downloaded lots of these tools and I want to make it easier for the research community to install and run these softwares as bioconda packages from command line. Therefore, I packaged these softwares into conda packages. Please note: I am not the author of the softwares. My contribution lies in creating conda packages to allow a broader bioinformatic audience to use these tools. To find more specific information on the softwares, please refer to the URLs mentioned above. 
 
