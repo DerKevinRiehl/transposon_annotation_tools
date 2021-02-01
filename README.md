@@ -102,10 +102,12 @@ RepeatMasker -pa 10 demo.fasta
 ```
 
 
-## **Using TransposonPSI** [CondaPackage](https://anaconda.org/bioconda/transposonpsi), [Code](http://transposonpsi.sourceforge.net/)
+## **Using TransposonPSI** [CondaPackage](https://anaconda.org/DerKevinRiehl/transposon_annotation_tools_transposonpsicli), [Code](http://transposonpsi.sourceforge.net/)
 In order to run "TransposonPSI" which is a software for the detection of proteins characteristic for transposons, please run following command:
 ```
-transposonPSI.pl -help
+mkdir temp
+mkdir result
+transposonPSI -fastaFile demo.fasta -resultFolder result -tempFolder temp -mode nuc # options are 'nuc' and 'prot'
 ...(in progress)...
 ```
 
