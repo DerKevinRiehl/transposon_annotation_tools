@@ -1,5 +1,5 @@
 # transposon_annotation_tools
-A set of bioconda packages for transposon annotation. 
+A set of bioconda packages for transposon annotation and transposon feature annotation in nucleotide sequences. 
 
 ## Installation
 If you want to install all of them at once, you can simple create a conda environment from the YAML-file that can be found in this Github repository by typing:
@@ -112,6 +112,15 @@ transposonPSI -fastaFile demo.fasta -resultFolder result -tempFolder temp -mode 
 ```
 
 
-## Background
-During my masterthesis, I downloaded lots of these tools and I want to make it easier for the research community to install and run these softwares as bioconda packages from command line. Therefore, I packaged these softwares into conda packages. Please note: I am not the author of the softwares. My contribution lies in creating conda packages to allow a broader bioinformatic audience to use these tools. To find more specific information on the softwares, please refer to the URLs mentioned above. 
+## **Using TransposonProteinNCBICDD1000** [CondaPackage](https://anaconda.org/DerKevinRiehl/transposon_annotation_tools_proteinncbicdd1000), [Code](https://github.com/DerKevinRiehl/transposon_annotation_tools/)
+In order to run "TransposonProteinNCBICDD1000" which is a software for the detection of proteins characteristic for transposons, please run following command:
+```
+mkdir result
+proteinNCBICDD1000 -fastaFile demo.fasta -resultFolder result 
+# modes: 'nuc' and 'prot'
+```
+This software uses 1000 selected characteristic conserved domain models of proteins from the [NCBI CDD](https://www.ncbi.nlm.nih.gov/Structure/cdd/cdd.shtml) that are found to occur frequently in transposons. The tool [RPSTBLASTN](https://blast.ncbi.nlm.nih.gov/Blast.cgi) is used to annotate these proteins within a given fasta file.
 
+
+## Background
+During my masterthesis, I downloaded lots of these tools and I want to make it easier for the research community to install and run these softwares as bioconda packages from command line. Therefore, I packaged these softwares into conda packages. Please note: I am not the author of the softwares. My contribution lies in creating conda packages to allow a broader bioinformatic audience to use these tools. To find more specific information on the softwares, please refer to the URLs mentioned above. The only package created by myself within this GIT repository is *TransposonProteinNCBICDD1000*.
