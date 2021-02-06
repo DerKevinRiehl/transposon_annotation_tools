@@ -117,7 +117,6 @@ In order to run "TransposonProteinNCBICDD1000" which is a software for the detec
 ```
 mkdir result
 proteinNCBICDD1000 -fastaFile demo.fasta -resultFolder result 
-# modes: 'nuc' and 'prot'
 ```
 This software uses 1000 selected characteristic conserved domain models of proteins from the [NCBI CDD](https://www.ncbi.nlm.nih.gov/Structure/cdd/cdd.shtml) that are found to occur frequently in transposons. The tool [RPSTBLASTN](https://blast.ncbi.nlm.nih.gov/Blast.cgi) is used to annotate these proteins within a given fasta file.
 
