@@ -15,9 +15,8 @@ def getArgument(args, title):
                 return ""
     return ""
 
-args = sys.argvs
-
 # Parameters
+args = sys.argv
 resultFolder = getArgument(args, "resultFolder")
 fastaFile    = getArgument(args, "fastaFile")
 
