@@ -1,0 +1,13 @@
+package:
+  name: "seqkit"
+  version: "0.15.0"
+build:
+  number: 0
+test:
+  commands:
+    - seqkit version --help
+about:
+  home: https://github.com/shenwei356/seqkit
+  license: MIT
+  summary: Cross-platform and ultrafast toolkit for FASTA/Q file manipulation
+  description: A set of bioconda packages for sequence data handling. During my masterthesis I downloaded lots of these tools and I want to make it easier for the research community to install and run these softwares as bioconda packages from command line. 
