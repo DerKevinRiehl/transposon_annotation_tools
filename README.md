@@ -123,3 +123,8 @@ This software uses 1000 selected characteristic conserved domain models of prote
 
 ## Background
 During my masterthesis, I downloaded lots of these tools and I want to make it easier for the research community to install and run these softwares as bioconda packages from command line. Therefore, I packaged these softwares into conda packages. Please note: I am not the author of the softwares. My contribution lies in creating conda packages to allow a broader bioinformatic audience to use these tools. To find more specific information on the softwares, please refer to the URLs mentioned above. The only package created by myself within this GIT repository is *TransposonProteinNCBICDD1000*.
+
+
+## Citations
+Please cite our paper if you find transposition event detector "deTEct" useful:
+(in progress)
