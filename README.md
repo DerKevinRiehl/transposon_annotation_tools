@@ -1,5 +1,5 @@
 # transposon_annotation_tools
-A set of bioconda packages for transposon annotation and transposon feature annotation in nucleotide sequences. 
+A set of bioconda packages for transposon annotation and transposon feature annotation in nucleotide sequences. *transposon_annotation_tools* is part of [TransposonUltimate](https://github.com/DerKevinRiehl/TransposonUltimate).
 
 ## Installation
 If you want to install all of them at once, you can simple create a conda environment from the YAML-file that can be found in this Github repository by typing:
