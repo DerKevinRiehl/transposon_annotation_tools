@@ -126,5 +126,5 @@ During my masterthesis, I downloaded lots of these tools and I want to make it e
 
 
 ## Citations
-Please cite our paper if you find transposition event detector "deTEct" useful:
+Please cite our paper if you find transposition annotation tools useful:
 (in progress)
