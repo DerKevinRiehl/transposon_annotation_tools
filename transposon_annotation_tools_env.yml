@@ -90,7 +90,7 @@ dependencies:
   - numpy=1.16.5=py27h95a1406_0
   - olefile=0.46=pyh9f0ad1d_1
   - openjdk=11.0.8=hacce0ff_0
-  - openssl=1.1.1i=h7f98852_0
+  - openssl=1.1.1j=h7f98852_0
   - paml=4.9=h516909a_5
   - pandas=0.24.2=py27hb3f55d8_0
   - pango=1.42.4=h69149e4_5
@@ -333,6 +333,7 @@ dependencies:
   - tidyp=1.04=h516909a_2
   - tk=8.6.10=h21135ba_1
   - traceback2=1.4.0=py27_0
+  - transposon_annotation_reasonate=1.0.0=0
   - transposon_annotation_tools_helitronscanner=1.0.0=1
   - transposon_annotation_tools_mitefinderii=1.0.0=0
   - transposon_annotation_tools_mitetracker=1.0.0=2
