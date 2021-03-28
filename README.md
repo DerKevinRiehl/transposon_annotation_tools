@@ -2,7 +2,24 @@
 A set of bioconda packages for transposon annotation and transposon feature annotation in nucleotide sequences. *transposon_annotation_tools* is part of [TransposonUltimate](https://github.com/DerKevinRiehl/TransposonUltimate).
 
 ## Installation
-If you want to install all of them at once, you can simple create a conda environment from the YAML-file that can be found in this Github repository by typing:
+You can simply create a conda environment and install the tools you want as outlined in the following. We recommend an environment based on Python=2.7 but depending on the combination of packages you can try to install the packages as well in different manors.
+```
+conda create -y --name transposon_annotation_tools_env python=2.7
+conda activate transposon_annotation_tools_env
+conda install -y -c genometools-genometools
+conda install -y -c derkevinriehl transposon_annotation_reasonate
+conda install -y -c derkevinriehl transposon_annotation_tools_proteinncbicdd1000
+conda install -y -c derkevinriehl transposon_annotation_tools_transposonpsicli
+conda install -y -c derkevinriehl transposon_annotation_tools_mitetracker
+conda install -y -c derkevinriehl transposon_annotation_tools_sinescan
+conda install -y -c derkevinriehl transposon_annotation_tools_helitronscanner
+conda install -y -c derkevinriehl transposon_annotation_tools_mitefinderii
+conda install -y -c derkevinriehl transposon_annotation_tools_mustv2
+conda install -y -c derkevinriehl transposon_annotation_tools_sinefinder
+conda deactivate
+```
+
+If you want to install all of them at once, you can simply create a conda environment from the YAML-file for Linux64 machines that can be found in this Github repository by typing:
 ```
 wget https://raw.githubusercontent.com/DerKevinRiehl/transposon_annotation_tools/main/transposon_annotation_tools_env.yml
 conda env create -f transposon_annotation_tools_env.yml
