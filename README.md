@@ -2,11 +2,11 @@
 A set of bioconda packages for transposon annotation and transposon feature annotation in nucleotide sequences. *transposon_annotation_tools* is part of [TransposonUltimate](https://github.com/DerKevinRiehl/TransposonUltimate).
 
 ## Installation
-You can simply create a conda environment and install the tools you want as outlined in the following. We recommend an environment based on Python=2.7 but depending on the combination of packages you can try to install the packages as well in different manors.
+You can simply create a conda environment and install the tools you want as outlined in the following. We recommend an environment based on Python=2.7 but depending on the combination of packages you can try to install the packages as well in different manors. **Note:** *For some users the bioconda channel is reported to cause issues with genometools-genometools, therefore you might consider to download it from other channels, e.g. conda-forge: "conda install -y -c bioconda -c conda-forge genometools-genometools".*
 ```
 conda create -y --name transposon_annotation_tools_env python=2.7
 conda activate transposon_annotation_tools_env
-conda install -y -c bioconda genometools-genometools 
+conda install -y -c bioconda genometools-genometools # for some users: conda install -y -c bioconda -c conda-forge genometools-genometools
 conda install -y -c derkevinriehl transposon_annotation_reasonate
 conda install -y -c derkevinriehl transposon_annotation_tools_proteinncbicdd1000
 conda install -y -c derkevinriehl transposon_annotation_tools_transposonpsicli
