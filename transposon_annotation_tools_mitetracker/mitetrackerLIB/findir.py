@@ -5,9 +5,12 @@ from Bio import SeqIO
 from subprocess import Popen, PIPE
 import os
 from Bio.SeqUtils import GC
-import Queue as queue
 import logging
-
+try:
+    import Queue as queue 
+except ImportError:
+    import queue
+    
 def complex_enough(seq):
     complexity = lcc_simp(seq.upper())
     if complexity < 1.25:
