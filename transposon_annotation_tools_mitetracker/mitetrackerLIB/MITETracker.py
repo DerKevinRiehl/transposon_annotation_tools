@@ -14,9 +14,13 @@ from collections import OrderedDict
 import sys
 import pandas as pd
 from threading import Thread, Lock, active_count
-import Queue as queue 
 import logging
 import findir
+
+try:
+    import Queue as queue 
+except ImportError:
+    import queue
 
 #defaults
 parser = argparse.ArgumentParser()#pylint: disable=invalid-name
