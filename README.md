@@ -2,7 +2,7 @@
 A set of bioconda packages for transposon annotation and transposon feature annotation in nucleotide sequences. *transposon_annotation_tools* is part of [TransposonUltimate](https://github.com/DerKevinRiehl/TransposonUltimate).
 
 ## Installation
-You can simply create a conda environment and install the tools you want as outlined in the following. We recommend an environment based on Python=2.7 but depending on the combination of packages you can try to install the packages as well in different manors. As complex dependencies cause long waiting times for environment resolving using conda, we recommend the use of mamba. **Note:** *For some users the bioconda channel is reported to cause issues with genometools-genometools, therefore you might consider to download it from other channels, e.g. conda-forge: "conda install -y -c bioconda -c conda-forge genometools-genometools".* **Note2:** *For some users sinescan was causing trouble with environment resolving of conda, but mamba worked better (see second code)*
+You can simply create a conda environment and install the tools you want as outlined in the following. We recommend an environment based on Python=2.7 but depending on the combination of packages you can try to install the packages as well in different manors. As complex dependencies cause long waiting times for environment resolving using conda, we recommend the use of mamba. **Note:** *Sinescan installation needs python=2.7. As conda is not taking the most recent version of the package, you need to specify the number. **Note2:** *For some users the bioconda channel is reported to cause issues with genometools-genometools, therefore you might consider to download it from other channels, e.g. conda-forge: "conda install -y -c bioconda -c conda-forge genometools-genometools".* **Note3:** *For some users sinescan was causing trouble with environment resolving of conda, but mamba worked better (see second code)*
 
 **Installation using mamba (recommended)**
 ```
@@ -14,11 +14,15 @@ mamba install -y -c derkevinriehl transposon_annotation_reasonate
 mamba install -y -c derkevinriehl transposon_annotation_tools_proteinncbicdd1000
 mamba install -y -c derkevinriehl transposon_annotation_tools_transposonpsicli
 mamba install -y -c derkevinriehl transposon_annotation_tools_mitetracker
-mamba install -y -c derkevinriehl transposon_annotation_tools_sinescan
 mamba install -y -c derkevinriehl transposon_annotation_tools_helitronscanner
 mamba install -y -c derkevinriehl transposon_annotation_tools_mitefinderii
 mamba install -y -c derkevinriehl transposon_annotation_tools_mustv2
 mamba install -y -c derkevinriehl transposon_annotation_tools_sinefinder
+
+# how to install sinescan
+mamba install -y python=2.7 # if not done before of mentioned while creating the environment
+mamba install -y -c derkevinriehl transposon_annotation_tools_sinescan=1.1.2
+
 conda deactivate
 ```
 
@@ -31,11 +35,15 @@ conda install -y -c derkevinriehl transposon_annotation_reasonate
 conda install -y -c derkevinriehl transposon_annotation_tools_proteinncbicdd1000
 conda install -y -c derkevinriehl transposon_annotation_tools_transposonpsicli
 conda install -y -c derkevinriehl transposon_annotation_tools_mitetracker
-conda install -y -c derkevinriehl transposon_annotation_tools_sinescan
 conda install -y -c derkevinriehl transposon_annotation_tools_helitronscanner
 conda install -y -c derkevinriehl transposon_annotation_tools_mitefinderii
 conda install -y -c derkevinriehl transposon_annotation_tools_mustv2
 conda install -y -c derkevinriehl transposon_annotation_tools_sinefinder
+
+# how to install sinescan
+conda install -y python=2.7 # if not done before of mentioned while creating the environment
+conda install -y -c derkevinriehl transposon_annotation_tools_sinescan=1.1.2
+
 conda deactivate
 ```
 
