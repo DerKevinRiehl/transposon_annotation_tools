@@ -5,7 +5,7 @@ A set of bioconda packages for transposon annotation and transposon feature anno
 You can simply create a conda environment and install the tools you want as outlined in the following. We recommend an environment based on Python=2.7 but depending on the combination of packages you can try to install the packages as well in different manors. As complex dependencies cause long waiting times for environment resolving using conda, we recommend the use of mamba. 
 * **Note1:** *Sinescan installation needs python=2.7. As conda is not taking the most recent version of the package, you need to specify the latest version number (1.1.2).* 
 * **Note2:** *For some users the bioconda channel is reported to cause issues with genometools-genometools, therefore you might consider to download it from other channels, e.g. conda-forge: "conda install -y -c bioconda -c conda-forge genometools-genometools".* 
-* **Note3:** *For some users sinescan was causing trouble with environment resolving of conda, but mamba worked better (see second code)*
+* **Note3:** *For some users sinescan was causing trouble with environment resolving of conda, therefore mamba worked better.*
 
 **Installation using mamba (recommended)**
 ```
