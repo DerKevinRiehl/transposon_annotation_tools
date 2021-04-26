@@ -336,7 +336,7 @@ dependencies:
   - transposon_annotation_reasonate=1.0.0=0
   - transposon_annotation_tools_helitronscanner=1.0.0=1
   - transposon_annotation_tools_mitefinderii=1.0.0=0
-  - transposon_annotation_tools_mitetracker=1.0.0=2
+  - transposon_annotation_tools_mitetracker=1.0.0=3
   - transposon_annotation_tools_mustv2=1.0.0=0
   - transposon_annotation_tools_proteinncbicdd1000=1.0.0=1
   - transposon_annotation_tools_sinefinder=1.0.1=0
