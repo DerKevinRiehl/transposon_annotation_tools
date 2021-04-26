@@ -1,9 +1,9 @@
 package:
   name: "transposon_annotation_tools_mitetracker"
-  version: "1.0.0"
+  version: "1.0.1"
 
 build:
-  number: 3
+  number: 1
 
 requirements:
   run:
