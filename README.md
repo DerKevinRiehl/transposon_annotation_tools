@@ -2,7 +2,25 @@
 A set of bioconda packages for transposon annotation and transposon feature annotation in nucleotide sequences. *transposon_annotation_tools* is part of [TransposonUltimate](https://github.com/DerKevinRiehl/TransposonUltimate).
 
 ## Installation
-You can simply create a conda environment and install the tools you want as outlined in the following. We recommend an environment based on Python=2.7 but depending on the combination of packages you can try to install the packages as well in different manors. **Note:** *For some users the bioconda channel is reported to cause issues with genometools-genometools, therefore you might consider to download it from other channels, e.g. conda-forge: "conda install -y -c bioconda -c conda-forge genometools-genometools".* **Note2:** *For some users sinescan was causing trouble with environment resolving of conda, but mamba worked better (see second code)
+You can simply create a conda environment and install the tools you want as outlined in the following. We recommend an environment based on Python=2.7 but depending on the combination of packages you can try to install the packages as well in different manors. As complex dependencies cause long waiting times for environment resolving using conda, we recommend the use of mamba. **Note:** *For some users the bioconda channel is reported to cause issues with genometools-genometools, therefore you might consider to download it from other channels, e.g. conda-forge: "conda install -y -c bioconda -c conda-forge genometools-genometools".* **Note2:** *For some users sinescan was causing trouble with environment resolving of conda, but mamba worked better (see second code)*
+
+**Installation using mamba (recommended)**
+```
+conda create -y --name transposon_annotation_tools_env python=2.7
+conda activate transposon_annotation_tools_env
+conda install -y mamba
+mamba install -y -c bioconda genometools-genometools # for some users: conda install -y -c bioconda -c conda-forge genometools-genometools
+mamba install -y -c derkevinriehl transposon_annotation_reasonate
+mamba install -y -c derkevinriehl transposon_annotation_tools_proteinncbicdd1000
+mamba install -y -c derkevinriehl transposon_annotation_tools_transposonpsicli
+mamba install -y -c derkevinriehl transposon_annotation_tools_mitetracker
+mamba install -y -c derkevinriehl transposon_annotation_tools_sinescan
+mamba install -y -c derkevinriehl transposon_annotation_tools_helitronscanner
+mamba install -y -c derkevinriehl transposon_annotation_tools_mitefinderii
+mamba install -y -c derkevinriehl transposon_annotation_tools_mustv2
+mamba install -y -c derkevinriehl transposon_annotation_tools_sinefinder
+conda deactivate
+```
 
 **Installation using conda**
 ```
@@ -18,24 +36,6 @@ conda install -y -c derkevinriehl transposon_annotation_tools_helitronscanner
 conda install -y -c derkevinriehl transposon_annotation_tools_mitefinderii
 conda install -y -c derkevinriehl transposon_annotation_tools_mustv2
 conda install -y -c derkevinriehl transposon_annotation_tools_sinefinder
-conda deactivate
-```
-
-**Installation using mamba**
-```
-conda create -y --name transposon_annotation_tools_env python=2.7
-conda activate transposon_annotation_tools_env
-conda install -y mamba
-mamba install -y -c bioconda genometools-genometools # for some users: conda install -y -c bioconda -c conda-forge genometools-genometools
-mamba install -y -c derkevinriehl transposon_annotation_reasonate
-mamba install -y -c derkevinriehl transposon_annotation_tools_proteinncbicdd1000
-mamba install -y -c derkevinriehl transposon_annotation_tools_transposonpsicli
-mamba install -y -c derkevinriehl transposon_annotation_tools_mitetracker
-mamba install -y -c derkevinriehl transposon_annotation_tools_sinescan
-mamba install -y -c derkevinriehl transposon_annotation_tools_helitronscanner
-mamba install -y -c derkevinriehl transposon_annotation_tools_mitefinderii
-mamba install -y -c derkevinriehl transposon_annotation_tools_mustv2
-mamba install -y -c derkevinriehl transposon_annotation_tools_sinefinder
 conda deactivate
 ```
 
