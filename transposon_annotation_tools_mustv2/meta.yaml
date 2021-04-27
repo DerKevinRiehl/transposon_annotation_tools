@@ -8,7 +8,7 @@ build:
 requirements:
   run:
     - blat
-    - blast
+    - blast-legacy
     - perl 5.26.2
     - perl-bioperl
     - perl-bioperl-core 1.007002
