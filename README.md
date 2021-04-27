@@ -15,7 +15,7 @@ conda install -y mamba
 mamba install -y -c bioconda genometools-genometools # for some users: mamba install -y -c bioconda -c conda-forge genometools-genometools
 mamba install -y -c derkevinriehl transposon_annotation_reasonate
 mamba install -y -c derkevinriehl transposon_annotation_tools_proteinncbicdd1000
-mamba install -y -c derkevinriehl transposon_annotation_tools_transposonpsicli
+conda install -y -c derkevinriehl transposon_annotation_tools_transposonpsicli # this one seems to not work with mamba
 mamba install -y -c derkevinriehl transposon_annotation_tools_mitetracker
 mamba install -y -c derkevinriehl transposon_annotation_tools_helitronscanner
 mamba install -y -c derkevinriehl transposon_annotation_tools_mitefinderii
