@@ -13,7 +13,6 @@ conda create -y --name transposon_annotation_tools_env python=2.7
 conda activate transposon_annotation_tools_env
 conda install -y mamba
 mamba install -y -c bioconda genometools-genometools # for some users: mamba install -y -c bioconda -c conda-forge genometools-genometools
-mamba install -y -c derkevinriehl transposon_annotation_reasonate
 mamba install -y -c derkevinriehl transposon_annotation_tools_proteinncbicdd1000
 conda install -y -c derkevinriehl transposon_annotation_tools_transposonpsicli # this one seems to not work with mamba
 mamba install -y -c derkevinriehl transposon_annotation_tools_mitetracker
@@ -34,7 +33,6 @@ conda deactivate
 conda create -y --name transposon_annotation_tools_env python=2.7
 conda activate transposon_annotation_tools_env
 conda install -y -c bioconda genometools-genometools # for some users: conda install -y -c bioconda -c conda-forge genometools-genometools
-conda install -y -c derkevinriehl transposon_annotation_reasonate
 conda install -y -c derkevinriehl transposon_annotation_tools_proteinncbicdd1000
 conda install -y -c derkevinriehl transposon_annotation_tools_transposonpsicli
 conda install -y -c derkevinriehl transposon_annotation_tools_mitetracker
