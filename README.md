@@ -165,7 +165,7 @@ During my masterthesis, I downloaded lots of these tools and I want to make it e
 
 
 ## Citations
-Please cite our paper if you find TransposonUltimate useful:
+Please cite our paper if you find transposon annotation tools useful:
 
 Riehl, Kevin and Riccio, Cristian and Miska, Eric and Hemberg, Martin. TransposonUltimate: software for transposon classification, annotation and detection. bioRxiv doi: https://doi.org/10.1101/2021.04.30.442214 (submitted to GenomeBiology, available on BioRxiv https://www.biorxiv.org/content/10.1101/2021.04.30.442214v1 )
 
