@@ -28,7 +28,7 @@ mamba install -y -c derkevinriehl transposon_annotation_tools_sinescan=1.1.2
 conda deactivate
 ```
 
-**Installation using yml file (works for Linux64)**
+**Installation using yml file (definetly works for Linux64, other OS possible)**
 ```
 wget https://raw.githubusercontent.com/DerKevinRiehl/transposon_annotation_reasonaTE/main/environment_yml/transposon_annotation_tools_env.yml
 conda env create -f transposon_annotation_tools_env.yml
