@@ -7,7 +7,7 @@ You can simply create a conda environment and install the tools you want as outl
 * **Note2:** *For some users the bioconda channel is reported to cause issues with genometools-genometools, therefore you might consider to download it from other channels, e.g. conda-forge: "conda install -y -c bioconda -c conda-forge genometools-genometools".* 
 * **Note3:** *For some users sinescan was causing trouble with environment resolving of conda, therefore mamba worked better.*
 
-**Installation using mamba (recommended)**
+**Installation using conda and mamba (recommended)**
 ```
 conda create -y --name transposon_annotation_tools_env python=2.7
 conda activate transposon_annotation_tools_env
@@ -26,6 +26,12 @@ mamba install -y python=2.7 # if not done before of mentioned while creating the
 mamba install -y -c derkevinriehl transposon_annotation_tools_sinescan=1.1.2
 
 conda deactivate
+```
+
+**Installation using yml file (works for Linux64)**
+```
+wget https://raw.githubusercontent.com/DerKevinRiehl/transposon_annotation_reasonaTE/main/environment_yml/transposon_annotation_tools_env.yml
+conda env create -f transposon_annotation_tools_env.yml
 ```
 
 **Installation using conda**
